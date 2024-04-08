@@ -11,8 +11,10 @@ internal class Program
     static void Main()
     {
         Console.Title = "ButAirlines";
-        Console.InputEncoding = Encoding.UTF8;
-        Console.OutputEncoding = Encoding.UTF8;
+        //Console.InputEncoding = Encoding.UTF8;
+        //Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.GetEncoding("UTF-16");
+        Console.OutputEncoding = Encoding.GetEncoding("UTF-16");
         LoadData();
         while (true)
         {
@@ -33,21 +35,23 @@ internal class Program
             Console.WriteLine("\tГОЛОВНЕ МЕНЮ АВІКОМПАНІЇ \"ButAirlines\"");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("┌───────────────────┬───────────────────────────────────┐");
-            Console.WriteLine("│        Дiї        │             Пояснення             │");
-            Console.WriteLine("├───────┬───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   1   │  CREATE   │ ДОДАННЯ РЕЙСУ                     │");
-            Console.WriteLine("├───────┼───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   2   │  READ     │ ВІДОБРАЖЕННЯ ДОСТУПНИХ РЕЙСІВ     │");
-            Console.WriteLine("├───────┼───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   3   │  UPDATE   │ ОНОВЛЕННЯ РЕЙСІВ                  │");
-            Console.WriteLine("├───────┼───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   4   │  SEARCH   │ ПОШУК ДОСТУПНИХ РЕЙСІВ            │");
-            Console.WriteLine("├───────┼───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   5   │  DELETE   │ СКАСУВАННЯ РЕЙСІВ                 │");
-            Console.WriteLine("├───────┼───────────┼───────────────────────────────────┤");
-            Console.WriteLine("│   6   │  EXIT     │ ВИХІД                             │");
-            Console.WriteLine("└───────┴───────────┴───────────────────────────────────┘");
+            Console.WriteLine("┌───────────────────┬──────────────────────────────────────────┐");
+            Console.WriteLine("│        Дiї        │             Пояснення                    │");
+            Console.WriteLine("├───────┬───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   1   │  CREATE   │ ДОДАННЯ РЕЙСУ                            │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   2   │  READ     │ ВІДОБРАЖЕННЯ ДОСТУПНИХ РЕЙСІВ            │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   3   │  UPDATE   │ ОНОВЛЕННЯ РЕЙСІВ                         │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   4   │  SEARCH   │ ПОШУК ДОСТУПНИХ РЕЙСІВ                   │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   5   │  DELETE   │ СКАСУВАННЯ РЕЙСІВ                        │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   6   │  SORTING  │ СОРТУВАННЯ РЕЙСІВ ЗА АЛФАВІТОМ           │");
+            Console.WriteLine("├───────┼───────────┼──────────────────────────────────────────┤");
+            Console.WriteLine("│   7   │  EXIT     │ ВИХІД                                    │");
+            Console.WriteLine("└───────┴───────────┴──────────────────────────────────────────┘");
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(" ОБЕРІТЬ НОМЕР ДІЇ: ");
@@ -60,7 +64,8 @@ internal class Program
                 case "3": UpdateFlight(); break;
                 case "4": SearchFlight(); break;
                 case "5": DeleteFlight(); break;
-                case "6": Environment.Exit(0); break;
+                case "6": SortingFlight(); break;
+                case "7": Environment.Exit(0); break;
                 default: Error(); break;
             }
         }
@@ -133,12 +138,13 @@ internal class Program
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             foreach (var flight in flights)
             {
-                Console.WriteLine($"{flight.ID}) Номер рейсу \"{flight.Namber}\" | Назва рейсу \"{flight.Name}\" \n Час відправлення: {flight.DepartureTime} \n Час прибуття: {flight.ArrivalTime}");
+                Console.WriteLine($"{flight.ID}) Номер рейсу \"{flight.Namber}\" | Назва рейсу \"{flight.Name}\" \n Час відправлення: {flight.DepartureTime} \n Час прибуття: {flight.ArrivalTime}\n");
             }
         }
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("\nДля повернення на головне меню натисніть \nбудь-яку клавішу...");
         Console.ReadKey();
+        SaveData();
         Console.Clear();
     }
     static public void UpdateFlight()
@@ -223,7 +229,7 @@ internal class Program
                         result = true;
                     }
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine($"{flight.ID}) Номер рейсу \"{flight.Namber}\" | Назва рейсу \"{flight.Name}\" \n Час відправлення: {flight.DepartureTime} \n Час прибуття: {flight.ArrivalTime}");
+                    Console.WriteLine($"{flight.ID}) Номер рейсу \"{flight.Namber}\" | Назва рейсу \"{flight.Name}\" \n Час відправлення: {flight.DepartureTime} \n Час прибуття: {flight.ArrivalTime}\n");
                 }
             }
         }
@@ -270,6 +276,56 @@ internal class Program
 
         }
     }
+
+    static public void SortingFlight()
+    {
+        Console.Clear();
+        Console.BackgroundColor = ConsoleColor.DarkGreen;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("\t              Інформаційна система              ");
+        Console.WriteLine("\t                 АВІАКОМПАНІЯ                   ");
+        Console.WriteLine();
+
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("\t\t СОРТУВАННЯ ДОСТУПНИХ РЕЙСІВ!");
+        Console.BackgroundColor = ConsoleColor.Black;
+
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("\n Очікуйте, виконується сортування рейсів за алфавітом...");
+        Thread.Sleep(2000);
+        Console.WriteLine("\n Сортування успішно виконано!");
+        Thread.Sleep(2000);
+        Console.Clear();
+
+        Console.BackgroundColor = ConsoleColor.DarkGreen;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("\t              Інформаційна система              ");
+        Console.WriteLine("\t                 АВІАКОМПАНІЯ                   ");
+        Console.WriteLine();
+
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("\t\t СОРТУВАННЯ ДОСТУПНИХ РЕЙСІВ!");
+        Console.BackgroundColor = ConsoleColor.Black;
+
+        var sortedFlights = flights.OrderBy(flight => flight.Name);
+        UpdateIDs();
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        foreach (var flight in sortedFlights)
+        {
+            Console.WriteLine($" ──> Номер рейсу \"{flight.Namber}\" | Назва рейсу \"{flight.Name}\" \n Час відправлення: {flight.DepartureTime} \n Час прибуття: {flight.ArrivalTime}\n");
+        }
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("\nДля повернення на головне меню натисніть \nбудь-яку клавішу...");
+        Console.ReadKey();
+        SaveData();
+        Console.Clear();
+    }
+
     static public void LoadData()
     {
         if (File.Exists("data.json"))
@@ -280,11 +336,11 @@ internal class Program
                 flights = JsonSerializer.Deserialize<List<Flight>>(json);
             }
         }
-        foreach (var book in flights)
+        foreach (var flight in flights)
         {
-            if (book.ID > lastId)
+            if (flight.ID > lastId)
             {
-                lastId = book.ID;
+                lastId = flight.ID;
             }
         }
     }
