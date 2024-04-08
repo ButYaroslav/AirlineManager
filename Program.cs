@@ -171,22 +171,22 @@ internal class Program
         {
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Введіть оновлену назву рейсу: ");
+            Console.Write("Введіть нову назву рейсу: ");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             flightsToUpdate.Name = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Введіть оновлений номер рейсу: ");
+            Console.Write("Введіть новий номер рейсу: ");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             flightsToUpdate.Namber = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Введіть оновлений час відправлення рейсу: ");
+            Console.Write("Введіть новий час відправлення рейсу: ");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             flightsToUpdate.DepartureTime = Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Введіть оновлений час прибуття рейсу: ");
+            Console.Write("Введіть новий час прибуття рейсу: ");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             flightsToUpdate.ArrivalTime = Console.ReadLine();
             SaveData();
